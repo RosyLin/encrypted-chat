@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "name": "hashkeys test",
+      "setup": "sudo -H pip3 install -r requirements.txt",
+      "run": "pytest --tb=long test_hashkeys.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 3,
+      "points": 10
+    },
+    {
+      "name": "test_ivs",
+      "setup": "",
+      "run": "pytest --tb=long test_encryption.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    }
+  ]
+}
