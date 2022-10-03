@@ -11,8 +11,8 @@
       "points": 20
     },
     {
-      "name": "test_ivs",
-      "setup": "wget https://gist.githubusercontent.com/msherr/157fa5db5e7ca3fd931410bbd0509e57/raw/152243145cd0e793b00acc6d0860f50515fd9486/test_encryption.py",
+      "name": "test_encryption",
+      "setup": "rm -f test_encryption.py ; wget https://gist.githubusercontent.com/msherr/157fa5db5e7ca3fd931410bbd0509e57/raw/152243145cd0e793b00acc6d0860f50515fd9486/test_encryption.py",
       "run": "pytest --tb=long test_encryption.py",
       "input": "",
       "output": "",
