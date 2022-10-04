@@ -28,20 +28,19 @@ class EncryptedBlob:
         # pad the plaintext to make AES happy
         plaintextPadded = pad(bytes(plaintext,'utf-8'),16) 
 
-
-        
-        ciphertext = plaintextPadded  # definitely change this. :)
-        iv = bytes([0x00, 0x00, 0x00, 0x00])  # and this too!
-        mac = bytes([0x00, 0x00, 0x00, 0x00]) # and this too!
-
-
-
-
-
+        #??????------ use confkey or confkeyHash??????
+        cipher = AES.new(confkey, AES.MODE_CBC)
+        iv = cipher.iv
+        ciphertext = cipher.encrypt(plaintextPadded)
+                                            
+        mac = HMAC.new(authkey, digestmod=SHA256)
+        #???????-------- hmac of ciphertext? or cipher?????????
+        mac.update(ciphertext)
 
 
-
-
+        #ciphertext = plaintextPadded  # definitely change this. :)
+        #iv = bytes([0x00, 0x00, 0x00, 0x00])  # and this too!
+        #mac = bytes([0x00, 0x00, 0x00, 0x00]) # and this too!
 
         # DON'T CHANGE THE BELOW.
         # What we're doing here is converting the iv, ciphertext,
@@ -72,7 +71,7 @@ class EncryptedBlob:
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
         # FailedAuthenticationError EXCEPTION
-
+        
 
 
         raise imexceptions.FailedAuthenticationError("ruh oh!")
