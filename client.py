@@ -66,9 +66,9 @@ def hashKeys( confkey, authkey):
     #confkey_obj = SHA256.new(confkey) #b'confkey'
     confkeyHash = confkeyHash.digest()
  
-    authkey_b = bytes(authKey, 'ascii')
+    authkey_b = bytes(authkey, 'ascii')
     authkeyHash = SHA256.new()
-    authkeyHash.update (authKey_b)
+    authkeyHash.update (authkey_b)
     authkeyHash = authkeyHash.digest()
     
     confkeyHash = bytes([0x01,0x02])
