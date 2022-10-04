@@ -2,6 +2,7 @@ import base64
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Cipher import AES
 import imexceptions
+from Crypto.Hash import HMAC, SHA256
 
 
 class EncryptedBlob:
@@ -71,7 +72,7 @@ class EncryptedBlob:
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
         # FailedAuthenticationError EXCEPTION
-        
+
 
 
         raise imexceptions.FailedAuthenticationError("ruh oh!")
