@@ -62,12 +62,12 @@ def hashKeys( confkey, authkey):
     # insert code to compute two hashes here
     confkey_b = bytes(confkey, 'ascii')           
     confkeyHash = SHA256.new(confkey_b)
-    confkeyHash.hex()
+    confkeyHash.digest()
  
     authkey_b = bytes(authkey, 'ascii')
     authkeyHash = SHA256.new()
     authkeyHash.update(authkey_b)
-    authkeyHash = authkeyHash.hex()
+    authkeyHash = authkeyHash.digest()
     
     return confkeyHash,authkeyHash
 
