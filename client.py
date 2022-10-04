@@ -60,20 +60,16 @@ def parseArgs():
 # e.g., confkey_as_bytes = bytes(confkey,'ascii')
 def hashKeys( confkey, authkey):
     # insert code to compute two hashes here
-    confkey_b = bytes(confkey, 'ascii')
+    confkey_b = bytes(confkey, 'ascii')           
     confkeyHash = SHA256.new(confkey_b)
-    # confkey_obj = SHA256.new(confkey) #b'confkey'
-    confkeyHash.digest()
+    confkeyHash.hex()
  
     authkey_b = bytes(authkey, 'ascii')
     authkeyHash = SHA256.new()
     authkeyHash.update(authkey_b)
-    authkeyHash = authkeyHash.digest()
+    authkeyHash = authkeyHash.hex()
     
-    confkeyHash = bytes([0x01,0x02])
-    authkeyHash = bytes([0x99,0x22,0x33])
     return confkeyHash,authkeyHash
-
 
 
 def main():
