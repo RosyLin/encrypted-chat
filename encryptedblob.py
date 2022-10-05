@@ -37,7 +37,7 @@ class EncryptedBlob:
         mac = HMAC.new(authkey, digestmod=SHA256)
         #???????-------- hmac of ciphertext? or cipher?????????
         mac.update(ciphertext)
-
+        d = mac.digest()
 
         #ciphertext = plaintextPadded  # definitely change this. :)
         #iv = bytes([0x00, 0x00, 0x00, 0x00])  # and this too!
@@ -49,7 +49,7 @@ class EncryptedBlob:
         # can be part of the JSON EncryptedIM object
         ivBase64 = base64.b64encode(iv).decode("utf-8") 
         ciphertextBase64 = base64.b64encode(ciphertext).decode("utf-8") 
-        macBase64 = base64.b64encode(mac).decode("utf-8") 
+        macBase64 = base64.b64encode(d).decode("utf-8") 
         return ivBase64, ciphertextBase64, macBase64
 
 
