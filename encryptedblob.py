@@ -60,8 +60,8 @@ class EncryptedBlob:
         except imexceptions.FailedDecryptionError:
             print("Incorrect decrytion")      
        
-        plaintextUnpadded = unpad(bytes(decrypttext,'utf-8'),16) 
-        self.plaintext = plaintextUnpadded
+        self.plaintext = unpad(decrpttext,16) 
+        plaintext = plaintext.decode("utf-8")
 
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
