@@ -25,28 +25,17 @@ class EncryptedBlob:
         # TODO: MODIFY THE CODE BELOW TO ACTUALLY ENCRYPT 
         # AND GENERATE A SHA256-BASED HMAC BASED ON THE 
         # confkey AND authkey
-
-        # pad the plaintext to make AES happy
         plaintextPadded = pad(bytes(plaintext,'utf-8'),16) 
 
-        #??????------ use confkey or confkeyHash??????
         cipher = AES.new(confkey, AES.MODE_CBC)
         iv = cipher.iv
         ciphertext = cipher.encrypt(plaintextPadded)
                                             
         mac = HMAC.new(authkey, digestmod=SHA256)
-        #???????-------- hmac of ciphertext? or cipher?????????
         mac.update(ciphertext)
         d = mac.digest()
 
-        #ciphertext = plaintextPadded  # definitely change this. :)
-        #iv = bytes([0x00, 0x00, 0x00, 0x00])  # and this too!
-        #mac = bytes([0x00, 0x00, 0x00, 0x00]) # and this too!
-
         # DON'T CHANGE THE BELOW.
-        # What we're doing here is converting the iv, ciphertext,
-        # and mac (which are all in bytes) to base64 encoding, so that it 
-        # can be part of the JSON EncryptedIM object
         ivBase64 = base64.b64encode(iv).decode("utf-8") 
         ciphertextBase64 = base64.b64encode(ciphertext).decode("utf-8") 
         macBase64 = base64.b64encode(d).decode("utf-8") 
@@ -65,13 +54,27 @@ class EncryptedBlob:
         # TODO: hint: in encryptThenMAC, I padded the plaintext.  You'll
         # need to unpad it.
         # See https://pycryptodome.readthedocs.io/en/v3.11.0/src/util/util.html#crypto-util-padding-module
-
-        # so, this next line is definitely wrong.  :)
-        self.plaintext = "It's a wonderful day in the neighborhood."
-        
+        try: 
+            cipher = AES.new(confkey,AES.MODE_CBC, iv)
+            decrypt = cipher.decrypt(ciphertext) #, AES.block_size)
+            plaintextUnpadded = unpad(bytes(decrypt,'utf-8'),16) 
+            self.plaintext = plaintextUnpadded
+        except (FailedDecryptionError):
+            print("Incorrect decrytion")      
+       
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
         # FailedAuthenticationError EXCEPTION
+
+        v = HMAC.new(authkey, digestmod=SHA256)
+        v.update(plaintext) #?????????????
+        
+        try:
+            v.hexverify(mac)
+        except FailedAuthenticationError:
+            print("the message or the key is incorrect")
+
+            
 
 
 
