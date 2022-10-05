@@ -56,29 +56,29 @@ class EncryptedBlob:
         # See https://pycryptodome.readthedocs.io/en/v3.11.0/src/util/util.html#crypto-util-padding-module
         try: 
             cipher = AES.new(confkey,AES.MODE_CBC, iv)
-            decrypt = cipher.decrypt(ciphertext) #, AES.block_size)
-            plaintextUnpadded = unpad(bytes(decrypt,'utf-8'),16) 
-            self.plaintext = plaintextUnpadded
-        except (FailedDecryptionError):
-            print("Incorrect decrytion")      
+            decrypttext = cipher.decrypt(ciphertext) #, AES.block_size)
+            
+        raise imexceptions.FailedDecryptionError("Incorrect decrytion")      
        
+        plaintextUnpadded = unpad(bytes(decrypttext,'utf-8'),16) 
+        self.plaintext = plaintextUnpadded
+
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
         # FailedAuthenticationError EXCEPTION
 
         v = HMAC.new(authkey, digestmod=SHA256)
-        v.update(plaintext) #?????????????
+        v.update(ciphertext) #?????????????
         
         try:
             v.hexverify(mac)
-        except FailedAuthenticationError:
-            print("the message or the key is incorrect")
+        raise imexceptions.FailedAuthenticationError("ruh oh!")
 
             
 
 
 
-        raise imexceptions.FailedAuthenticationError("ruh oh!")
+        
         
 
         return self.plaintext
