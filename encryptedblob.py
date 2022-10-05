@@ -54,11 +54,11 @@ class EncryptedBlob:
         # TODO: hint: in encryptThenMAC, I padded the plaintext.  You'll
         # need to unpad it.
         # See https://pycryptodome.readthedocs.io/en/v3.11.0/src/util/util.html#crypto-util-padding-module
-        try: 
+        try:
             cipher = AES.new(confkey,AES.MODE_CBC, iv)
-            decrypttext = cipher.decrypt(ciphertext) #, AES.block_size)
-            
-        raise imexceptions.FailedDecryptionError("Incorrect decrytion")      
+            decrypttext = cipher.decrypt(ciphertext) #, AES.block_size)     
+        except imexceptions.FailedDecryptionError:
+            print("Incorrect decrytion")      
        
         plaintextUnpadded = unpad(bytes(decrypttext,'utf-8'),16) 
         self.plaintext = plaintextUnpadded
@@ -72,7 +72,8 @@ class EncryptedBlob:
         
         try:
             v.hexverify(mac)
-        raise imexceptions.FailedAuthenticationError("ruh oh!")
+        except imexceptions.FailedAuthenticationError:
+            print("ruh oh!")
 
             
 
