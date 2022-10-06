@@ -60,8 +60,8 @@ class EncryptedBlob:
         except imexceptions.FailedDecryptionError:
             print("Incorrect decrytion")      
        
-        self.plaintext = unpad(decrypttext,16) 
-        plaintext = plaintext.decode("utf-8")
+        decryptUnpad = unpad(decrypttext,16) 
+        self.plaintext = decryptUnpad.decode("utf-8")
 
         # TODO: DON'T FORGET TO VERIFY THE MAC!!!
         # IF IT DOESN'T VERIFY, YOU NEED TO RAISE A
@@ -69,9 +69,10 @@ class EncryptedBlob:
 
         v = HMAC.new(authkey, digestmod=SHA256)
         v.update(ciphertext) #?????????????
+        h = v.digest()
         
         try:
-            v.hexverify(mac)
+            h.hexverify(mac)
         except imexceptions.FailedAuthenticationError:
             print("ruh oh!")
 
