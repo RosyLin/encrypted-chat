@@ -70,15 +70,8 @@ class EncryptedBlob:
         v = HMAC.new(authkey, digestmod=SHA256)
         v.update(ciphertext)
         h = v.digest()
-        
+
         if h != mac:
-                throw imexceptions.FailedAuthenticationError("ruh oh!")
-
-            
-
-
-
+                raise imexceptions.FailedAuthenticationError("ruh oh!")
         
-        
-
         return self.plaintext
