@@ -72,7 +72,7 @@ class EncryptedBlob:
         h = v.digest()
         
         try:
-            h.hexverify(mac)
+            h.verify(mac)
         except imexceptions.FailedAuthenticationError:
             print("ruh oh!")
 
