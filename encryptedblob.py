@@ -68,13 +68,11 @@ class EncryptedBlob:
         # FailedAuthenticationError EXCEPTION
 
         v = HMAC.new(authkey, digestmod=SHA256)
-        v.update(ciphertext) #?????????????
+        v.update(ciphertext)
         h = v.digest()
         
-        try:
-            h.verify(mac)
-        except imexceptions.FailedAuthenticationError:
-            print("ruh oh!")
+        if h != mac:
+                throw imexceptions.FailedAuthenticationError("ruh oh!")
 
             
 
